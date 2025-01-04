@@ -1,3 +1,12 @@
+# demucs.cpp_Windows
+demucs.cpp for Visual Studio 2022 on Windows
+
+This is mainly a copy of https://github.com/sevagh/demucs.cpp
+
+Only change is a CMakeLists.txt that creates .sln and .vcxproj for visual studio.
+
+## Original README:
+
 # demucs.cpp
 
 C++17 library that implements inference for the [Demucs v4 hybrid transformer](https://github.com/facebookresearch/demucs) and [Demucs v3 hybrid](https://github.com/facebookresearch/demucs/tree/v3) models, which are high-performance PyTorch neural networks for music source separation.

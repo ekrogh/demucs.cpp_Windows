@@ -58,7 +58,8 @@ bool demucscpp::load_demucs_model(const std::string &model_file,
             std::chrono::system_clock::now().time_since_epoch())
             .count();
 
-    std::cout << "Loading model_file... " << std::endl;
+    std::cout << "Loading model_file:  " << model_file << std::endl;
+    //std::cout << "Loading model_file... " << std::endl;
 
     FILE *f = fopen(model_file.c_str(), "rb");
     if (!f)

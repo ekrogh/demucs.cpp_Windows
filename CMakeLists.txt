@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 option(USE_OPENBLAS "Use OpenBLAS" ON)
 option(USE_AMD_AOCL "Use AMD AOCL" OFF)
@@ -13,9 +13,14 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-set(CMAKE_CXX_FLAGS_DEBUG "-g -DEIGEN_FAST_MATH=0 -O0")
+# Set warning flags based on compiler
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(CMAKE_CXX_FLAGS "/W4")
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+endif()
 
+set(CMAKE_CXX_FLAGS_DEBUG "-g -DEIGEN_FAST_MATH=0 -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-Ofast -march=native -fno-unsafe-math-optimizations -freciprocal-math -fno-signed-zeros")
 
 # define a macro NDEBUG for Eigen3 release builds
@@ -50,8 +55,16 @@ elseif (USE_INTEL_MKL)
     set(LIBRARIES_TO_LINK "-lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -liomp5")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DEIGEN_USE_BLAS")
 elseif (USE_OPENBLAS)
-    find_package(BLAS REQUIRED)
-    set(LIBRARIES_TO_LINK ${BLAS_LIBRARIES})
+    # Specify OpenBLAS directory
+    set(OpenBLAS_DIR "D:/Program_Files/OpenBLAS")
+    include_directories("${OpenBLAS_DIR}/include")
+    link_directories("${OpenBLAS_DIR}/lib")
+
+    # Manually set BLAS variables
+    find_library(BLAS_LIB NAMES openblas PATHS "${OpenBLAS_DIR}/lib" NO_DEFAULT_PATH)
+    set(BLAS_LIBRARIES ${BLAS_LIB})
+    set(BLAS_FOUND TRUE)
+
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DEIGEN_USE_BLAS")
 else()
     # add openmp support to regular eigen
