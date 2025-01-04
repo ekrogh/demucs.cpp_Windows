@@ -108,6 +108,8 @@ static void write_audio_file(const Eigen::MatrixXf &waveform,
 
 int main(int argc, const char **argv)
 {
+    std::cout << "Current path is " << std::filesystem::current_path() << std::endl;
+
     if (argc != 5)
     {
         std::cerr << "Usage: " << argv[0]
