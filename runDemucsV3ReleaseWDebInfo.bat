@@ -1,2 +1,1 @@
-echo %1
-.\build\RelWithDebInfo\demucs_v3.cpp.main .\ggml-demucs\%1 .\Riding_With_the_King.wav  .\demucs_V3-out-cpp\
+.\build\RelWithDebInfo\demucs_v3.cpp.main .\ggml-demucs\ggml-model-hdemucs_mmi-v3-f16.bin .\Riding_With_the_King.wav  .\demucs_V3-out-cpp\
